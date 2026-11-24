@@ -38,7 +38,6 @@ services:
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
 
 
-
   emqx:
     image: emqx/emqx:latest
     container_name: telemetry-emqx
@@ -54,7 +53,23 @@ services:
       - emqx_log:/opt/emqx/log
 
 
+  grafana:
+    image: grafana/grafana:latest
+    container_name: telemetry-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_FEATURE_TOGGLES_ENABLE: transformationsVariableSupport
+    volumes:
+      - grafana_data:/var/lib/grafana
+    depends_on:
+      - timescaledb
+    restart: unless-stopped
+
 volumes:
   timescale_data:
   emqx_data:
   emqx_log:
+  grafana_data:
