@@ -32,7 +32,3 @@ CREATE INDEX idx_telemetry_gaps_vehicle_open
 CREATE INDEX idx_telemetry_gaps_expiration
     ON telemetry_sequence_gaps (expires_at)
     WHERE status = 'OPEN';
-
-TRUNCATE TABLE telemetry_sequence_gaps;
-TRUNCATE TABLE telemetry;
-TRUNCATE TABLE processed_messages;
