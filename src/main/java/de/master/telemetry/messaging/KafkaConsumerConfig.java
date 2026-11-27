@@ -27,6 +27,14 @@ public class KafkaConsumerConfig {
 
         FixedBackOff backOff = new FixedBackOff(1000L, 2L);
 
-        return new DefaultErrorHandler(recoverer, backOff);
+        DefaultErrorHandler errorHandler =
+                new DefaultErrorHandler(recoverer, backOff);
+
+        errorHandler.addNotRetryableExceptions(
+                IllegalArgumentException.class,
+                jakarta.validation.ConstraintViolationException.class
+        );
+
+        return errorHandler;
     }
 }
